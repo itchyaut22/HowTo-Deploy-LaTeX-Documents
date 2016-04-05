@@ -1,6 +1,9 @@
 os: linux
 language: r
 sudo: required
+branches:
+  except:
+    - master
 before_install:
 - tlmgr install german
 script:
