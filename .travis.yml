@@ -2,7 +2,9 @@ os: linux
 language: r
 sudo: required
 before_install:
-- sudo apt-get -qq update
+- sudo add-apt-repository ppa:texlive-backports/ppa
+- sudo apt-get update
+- sudo apt-get install texlive-lang-german
 script:
 - cat README.md | grep --invert-match "\[\!\[" > README2.md
 - cat README2.md | grep --invert-match "Howto Deploy LaTeX Documents" > README.md
