@@ -1,31 +1,27 @@
 os: linux
-
-# we use the R VM because it contains LaTeX and pandoc
 language: r
-
-# we need super user privileges, so we depend on the old travis-ci infrastructure
 sudo: required
-
-# we can install additional software
 apt_packages:
-# we download pdf2djvu to also generate a djvu file of our LaTeX source
-  - pdf2djvu
-
+- pdf2djvu
 script:
-# if you have a markdown source, you can use pandoc to convert it to a LaTeX document
-  - cat README.md | grep --invert-match "\[\!\[" > README2.md
-  - cat README2.md | grep --invert-match "Howto Deploy LaTeX Documents" > README.md
-  - pandoc -s --from=markdown_github --to=latex -M title="Howto Deploy LaTeX Documents" -M author="Simon Waldherr" -V geometry:a4paper,margin=2cm -o README.tex README.md
-
-# in the next step we use pdflatex to convert .tex to .pdf
-# of course we could use pandoc for this also, but pdflatex generates nicer PDFs
-  - pdflatex -interaction=nonstopmode HowtoDeployLatexDocs-DE.tex
-  - pdflatex -interaction=nonstopmode HowtoDeployLatexDocs-EN.tex
-  - pdflatex -interaction=nonstopmode README.tex
-
-# now we convert the pdf file to a much smaller djvu document  
-  - pdf2djvu -d 1200 -o HowtoDeployLatexDocs-DE.djvu HowtoDeployLatexDocs-DE.pdf
-  - pdf2djvu -d 1200 -o HowtoDeployLatexDocs-EN.djvu HowtoDeployLatexDocs-EN.pdf
-after_success:
-# upload the previously generated pdf file to simonwaldherr.de (use $UPLOADSECRET as password)
-#  - wget --post-file=HowtoDeployLatexDocs-DE.pdf -q -O- "https://simonwaldherr.de/pdf/?repo=HowtoDeployLatexDocs&mode=save&key=$UPLOADSECRET&pull=$TRAVIS_PULL_REQUEST"
+- cat README.md | grep --invert-match "\[\!\[" > README2.md
+- cat README2.md | grep --invert-match "Howto Deploy LaTeX Documents" > README.md
+- pandoc -s --from=markdown_github --to=latex -M title="Howto Deploy LaTeX Documents"
+  -M author="Simon Waldherr" -V geometry:a4paper,margin=2cm -o README.tex README.md
+- pdflatex -interaction=nonstopmode HowtoDeployLatexDocs-DE.tex
+- pdflatex -interaction=nonstopmode HowtoDeployLatexDocs-EN.tex
+- pdflatex -interaction=nonstopmode README.tex
+- pdf2djvu -d 1200 -o HowtoDeployLatexDocs-DE.djvu HowtoDeployLatexDocs-DE.pdf
+- pdf2djvu -d 1200 -o HowtoDeployLatexDocs-EN.djvu HowtoDeployLatexDocs-EN.pdf
+after_success: 
+deploy:
+  api-key:
+    secure: JZkHqlyJdTfw6CxtB1+OX5VvRyjeLyN77BaQwM0RcaUvBe2JtF1WyYIyFFmMFFJ/JM+xtAgTAjJM0eu87CwMVui+3OECD+S6Q2GFI4A+5P6fysPohj+Mx/mcLf/LM+KwI0JErrdWyjVDLddKnen+Mc/mXdyuWLOjMbTalu7EiVNUVWhP/fqM25vHIoR1Gn3OMy9rixBi3rjTEVegg3ZkP1R8l7akc9mI1PPzJ7ms9xq+7fUruPSS+4V2zh4OwNKGFFEYVRfKcsZt89+Vs19bEhXhS+cKCR5Xixn0vv/N3kUUhbPIIs6lOCFZwCCRmIfox1oNNteqGtconImrPI6B9q3xR8zogm+vWd3FYRBk47pakL/VzxH1AwPkwleQDFgp43VHgKngbdDq/nLCQr2CscbvYYx6fvOePqEvFVnZW5RATQs5F/TxEO+wsErdjrrvpWbFULiy6Ap5VnKTwUGsRMBIlZwc9MUw09rMTX71SIGn2QvgsS3M8Y4yVoEa2V2XS09m3ekU3B+j9FmnvqlkdBhAnJIS0n6//yZn1DPpEU8Z/lclEepcERFr3yiU00Zn0vrQVjEI5arxHEGJDrJCBwDXGBd7eE6RS9ozeC5reMRpe4XNuoxC8rdrQGfwJUrTd1S3E6oIDIukWnW1ekvPVu42l5uNa9+0E1z8t2Cxt6w=
+  provider: releases
+  skip_cleanup: true
+  on:
+    tags: true
+  file: 
+    - "HowtoDeployLatexDocs-DE.pdf"
+    - "HowtoDeployLatexDocs-EN.pdf"
+    - "README.pdf"
