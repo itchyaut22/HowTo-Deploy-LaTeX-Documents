@@ -1,6 +1,8 @@
 os: linux
 language: r
 sudo: required
+before_install:
+- sudo apt-get -qq update
 script:
 - cat README.md | grep --invert-match "\[\!\[" > README2.md
 - cat README2.md | grep --invert-match "Howto Deploy LaTeX Documents" > README.md
