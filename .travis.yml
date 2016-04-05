@@ -21,6 +21,7 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+    repo: itchyaut22/HowTo-Deploy-LaTeX-Documents
   file: 
     - "HowtoDeployLatexDocs-DE.pdf"
     - "HowtoDeployLatexDocs-EN.pdf"
