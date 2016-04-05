@@ -1,0 +1,428 @@
+%%Andreas Neubauer, January 2016
+\documentclass[12pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage{graphicx} % Required to insert images
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage[left=2.5cm,right=2.5cm,top=3cm,bottom=2.5cm,headheight=1cm]{geometry}
+\usepackage{ngerman}
+\usepackage{titlesec}
+
+\titleformat*{\section}{\normalsize\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titleformat*{\subsubsection}{\normalsize\bfseries}
+\titleformat*{\paragraph}{\small\bfseries}
+\titleformat*{\subparagraph}{\small\bfseries}
+
+$if(fontfamily)$
+\usepackage{$fontfamily$}
+$else$
+\usepackage{lmodern}
+$endif$
+$if(linestretch)$
+\usepackage{setspace}
+\setstretch{$linestretch$}
+$endif$
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+$if(euro)$
+  \usepackage{eurosym}
+$endif$
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+$if(mainfont)$
+    \setmainfont{$mainfont$}
+$endif$
+$if(sansfont)$
+    \setsansfont{$sansfont$}
+$endif$
+$if(monofont)$
+    \setmonofont[Mapping=tex-ansi]{$monofont$}
+$endif$
+$if(mathfont)$
+    \setmathfont(Digits,Latin,Greek){$mathfont$}
+$endif$
+$if(CJKmainfont)$
+    \usepackage{xeCJK}
+    \setCJKmainfont[$CJKoptions$]{$CJKmainfont$}
+$endif$
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$endif$
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\usepackage[usenames,dvipsnames]{color}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={$author-meta$},
+            pdftitle={$title-meta$},
+            colorlinks=true,
+            citecolor=$if(citecolor)$$citecolor$$else$blue$endif$,
+            urlcolor=$if(urlcolor)$$urlcolor$$else$blue$endif$,
+            linkcolor=$if(linkcolor)$$linkcolor$$else$black$endif$,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+$if(lang)$
+\ifxetex
+  \usepackage{polyglossia}
+  \setmainlanguage[variant=$polyglossia-variant$]{$polyglossia-lang$}
+  \setotherlanguages{$for(polyglossia-otherlangs)$$polyglossia-otherlangs$$sep$,$endfor$}
+\else
+  \usepackage[shorthands=off,$babel-lang$]{babel}
+\fi
+$endif$
+$if(natbib)$
+\usepackage{natbib}
+\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+$endif$
+$if(biblatex)$
+\usepackage{biblatex}
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+$endif$
+$if(listings)$
+\usepackage{listings}
+$endif$
+$if(lhs)$
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\scriptsize}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+
+
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+\VerbatimFootnotes
+$endif$
+$if(tables)$
+\usepackage{longtable,booktabs}
+$endif$
+$if(graphics)$
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+$endif$
+$if(links-as-notes)$
+% Make links footnotes instead of hotlinks:
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+$endif$
+$if(strikeout)$
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+$endif$
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+$if(numbersections)$
+\setcounter{secnumdepth}{5}
+$else$
+\setcounter{secnumdepth}{0}
+$endif$
+$if(verbatim-in-note)$
+\VerbatimFootnotes % allows verbatim text in footnotes
+$endif$
+$if(dir)$
+\ifxetex
+  % load bidi as late as possible as it modifies e.g. graphicx
+  $if(latex-dir-rtl)$
+  \usepackage[RTLdocument]{bidi}
+  $else$
+  \usepackage{bidi}
+  $endif$
+\fi
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \TeXXeTstate=1
+  \newcommand{\RL}[1]{\beginR #1\endR}
+  \newcommand{\LR}[1]{\beginL #1\endL}
+  \newenvironment{RTL}{\beginR}{\endR}
+  \newenvironment{LTR}{\beginL}{\endL}
+\fi
+$endif$
+
+$if(title)$
+\title{$title$$if(subtitle)$\\\vspace{0.5em}{\large $subtitle$}$endif$}
+$endif$
+$if(author)$
+\author{$for(author)$$author.name$$sep$ \and $endfor$}
+$endif$
+\date{$date$}
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% Set up the header and footer
+\lhead{$author.name$} % Top left header
+\chead{$author.matnr$} % Top center header
+\rhead{\today} % Top right header
+\lfoot{$course.name$} % Bottom left footer
+\cfoot{$course.lvaleiter$} % Bottom center footer
+\rfoot{Seite\ \thepage\ von\ \pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.41pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\begin{document}
+\begin{titlepage}
+%
+% -------- only change entries beginning here ----------------------------
+%
+% enter the title of the thesis
+%
+\def\title{$title$}
+%
+%
+% choose type of work: 0 ... Dissertation
+%                      1 ... Diplomarbeit
+%                      2 ... Masterarbeit
+\def\type{2}
+%
+%
+% enter name of degree, see examples below
+%
+% e.g. Masterstudium
+%\def\degree{Diplom-Ingenieur}
+%\def\degree{Diplom-Ingenieurin}
+%\def\degree{Master of Science}
+% e.g. Diplomstudium Lehramt
+%\def\degree{Magister der Naturwissenschaften}
+%\def\degree{Magistra der Naturwissenschaften}
+% e.g. Doktorratsstudium
+\def\degree{Doktor}
+%\def\degree{Doktorin}
+%
+%
+% enter the study (Studienrichtung)
+% e.g. Diplomstudium:
+%\def\study{Technische Mathematik}
+% e.g. Masterstudium:
+%\def\study{Industriemathematik}
+% e.g. Doktorratsstudium
+\def\study{Technischen Wissenschaften}
+%\def\study{Naturwissenschaften}
+%
+%
+% If the names for the following entries are too long, break them into several
+% lines using \\
+%
+%
+% enter the name of the student
+%
+\def\name{$author.name$}
+%
+%
+% enter the name of the institute
+% e.g.
+%\def\institute{Institut f\"ur\\ Industriemathematik}
+%
+\def\institute{$if(course.institute)$$course.institute$$else$-$endif$}
+%
+%
+% enter the name and sex (male or female) of the supervisors
+% only for type 0 (Dissertation) you need two referees
+%
+\def\firstreferee{$if(course.lvaleiter)$$course.lvaleiter$$else$-$endif$}
+\newif\iffirstrefmale
+\firstrefmaletrue
+%\firstrefmalefalse
+%
+\def\secondreferee{Name of 2. referee}
+\newif\ifsecondrefmale
+\secondrefmaletrue
+%\secondrefmalefalse
+%
+%
+% if there has been assistance by further people uncomment the following line
+% and enter the name(s). if there are several assistants separate the names by \\
+%
+%\def\assist{Name of assistant}
+%\def\assist{Name of first assistant \\ Name of second assistant}
+%
+%
+% enter month year
+% (the month when you brought it to the Prüfungs- und Anerkennungsservice)
+%
+\def\date{\today}
+%
+% do not change anything below this line
+% -------------------------------------------------------------------------------
+%
+\def\ifundefined#1{\expandafter\ifx\csname#1\endcsname\relax}
+\DeclareFontShape{OT1}{cmss}{m}{n}
+{<5><6><7><8><9><10><10.95><12><14.4><17.28><20.74><24.88><29.86><35.83>%
+  <42.99><51.59><67><77.38>cmss10}{}
+\DeclareFontShape{OT1}{cmss}{bx}{n}
+{<5><6><7><8><9><10><10.95><12><14.4><17.28><20.74><24.88><29.86><35.83>%
+  <42.99><51.59><67><77.38>cmssbx10}{}
+\makeatletter
+\def\Huge{\@setfontsize\Huge{29.86pt}{36}}
+\makeatother
+%
+\unitlength 1cm
+\sffamily
+\begin{picture}(16.7,0)
+  \put(11.5,-2.5){\includegraphics[width=5.2cm]{/Users/martin/.pandoc/jku_de}}
+  \put(12.9,-4.2){\begin{minipage}[t]{3.9cm}\footnotesize%
+    Eingereicht von\\
+    {\bfseries\name}%
+    \vskip 4mm%
+    Angefertigt am\\
+    {\bfseries\institute}%
+    \vskip 4mm%
+    \ifcase\type%
+      \iffirstrefmale%
+      Erstbeurteiler\\
+    \else
+      Erstbeurteilerin\\
+    \fi
+    {\bfseries\firstreferee}%
+    \vskip 4mm%
+    \ifsecondrefmale%
+    Zweitbeurteiler\\
+    \else
+    Zweitbeurteilerin\\
+    \fi
+    {\bfseries\secondreferee}%
+    \else
+    \iffirstrefmale%
+    LVA-Leiter\\
+    \else
+    Beurteilerin\\
+    \fi
+    {\bfseries\firstreferee}%
+    \fi
+    \vskip 4mm%
+    \ifundefined{assist}\else
+    Mitbetreuung\\
+    {\bfseries\assist}%
+    \vskip 4mm%
+    \fi
+    \date
+    \end{minipage}}
+  \put(13,-22){\begin{minipage}[t]{3.9cm}\footnotesize%
+    {\bfseries JOHANNES KEPLER\\
+      UNIVERSIT\"AT LINZ}\\
+    Altenbergerstra{\ss}e 69\\
+    4040 Linz, \"Osterreich\\
+    www.jku.at\\
+    DVR 0093696
+    \end{minipage}}
+  \put(0,-12.2){\begin{minipage}[b]{12cm}\Huge\bfseries\title\end{minipage}}
+  \put(0,-17.2){\includegraphics[width=4.4cm]{/Users/martin/.pandoc/arr}}
+  \put(0,-18.3){\begin{minipage}[t]{12cm}%
+    {$subtitle$}%
+    \end{minipage}}
+\end{picture}
+\newpage
+\end{titlepage}
+\restoregeometry
+\pagestyle{fancy}
+\fancyheadoffset{0cm}
+\tableofcontents
+\newpage
+$body$
+
+
+$if(natbib)$
+$if(bibliography)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{document}

@@ -2,17 +2,14 @@ os: linux
 language: r
 sudo: required
 apt_packages:
-- pdf2djvu
+
 script:
 - cat README.md | grep --invert-match "\[\!\[" > README2.md
 - cat README2.md | grep --invert-match "Howto Deploy LaTeX Documents" > README.md
 - pandoc -s --from=markdown_github --to=latex -M title="Howto Deploy LaTeX Documents"
   -M author="Simon Waldherr" -V geometry:a4paper,margin=2cm -o README.tex README.md
+- pandoc --toc -N config.yaml --template=default.tex -o team12.pdf team12
 - pdflatex -interaction=nonstopmode HowtoDeployLatexDocs-DE.tex
-- pdflatex -interaction=nonstopmode HowtoDeployLatexDocs-EN.tex
-- pdflatex -interaction=nonstopmode README.tex
-- pdf2djvu -d 1200 -o HowtoDeployLatexDocs-DE.djvu HowtoDeployLatexDocs-DE.pdf
-- pdf2djvu -d 1200 -o HowtoDeployLatexDocs-EN.djvu HowtoDeployLatexDocs-EN.pdf
 after_success: 
 deploy:
   api-key:
@@ -24,5 +21,4 @@ deploy:
     repo: itchyaut22/HowTo-Deploy-LaTeX-Documents
   file: 
     - "HowtoDeployLatexDocs-DE.pdf"
-    - "HowtoDeployLatexDocs-EN.pdf"
-    - "README.pdf"
+    - "team12.pdf"
