@@ -9,7 +9,7 @@ before_install:
 script:
 - pwd
 - ls -al
-- pandoc --toc -N config.yaml -V mPath=$TRAVIS_BUILD_DIR/templates --data-dir=$TRAVIS_BUILD_DIR --template=default.tex -o team12.pdf team12.md
+- pandoc --toc -N config.yaml --latex-engine=xelatex -V mPath=$TRAVIS_BUILD_DIR/templates --data-dir=$TRAVIS_BUILD_DIR --template=default.tex -o team12.pdf team12.md
 - ls -al
 - ls -al templates/
 after_success: 
