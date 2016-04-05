@@ -13,7 +13,7 @@ script:
   -M author="Simon Waldherr" -V geometry:a4paper,margin=2cm -o README.tex README.md
 - pwd
 - ls -al
-- pandoc --toc -N config.yaml --template=$TRAVIS_BUILD_DIR/templates/default.tex -o team12.pdf team12.md
+- pandoc --toc -N config.yaml --data-dir=$TRAVIS_BUILD_DIR --template=default.tex -o team12.pdf team12.md
 - pdflatex -interaction=nonstopmode HowtoDeployLatexDocs-DE.tex
 after_success: 
 deploy:
